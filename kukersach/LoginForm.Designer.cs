@@ -67,6 +67,7 @@
             btn_Log.FlatAppearance.MouseDownBackColor = Color.FromArgb(89, 137, 128);
             btn_Log.FlatStyle = FlatStyle.Flat;
             btn_Log.Font = new Font("Comic Sans MS", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+            btn_Log.ForeColor = Color.FromArgb(34, 51, 48);
             btn_Log.Location = new Point(158, 334);
             btn_Log.Name = "btn_Log";
             btn_Log.Size = new Size(96, 46);
@@ -82,6 +83,7 @@
             text_pass.Name = "text_pass";
             text_pass.Size = new Size(153, 30);
             text_pass.TabIndex = 4;
+            text_pass.Text = "123";
             text_pass.UseSystemPasswordChar = true;
             // 
             // text_login
@@ -91,6 +93,7 @@
             text_login.Name = "text_login";
             text_login.Size = new Size(153, 30);
             text_login.TabIndex = 3;
+            text_login.Text = "admin";
             // 
             // picture_pass
             // 

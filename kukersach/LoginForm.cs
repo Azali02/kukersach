@@ -18,6 +18,7 @@ namespace kukersach
         public LoginForm()
         {
             InitializeComponent();
+            FormUtils.CenterFormOnScreen(this);
         }
 
         private void CloseClick_Click(object sender, EventArgs e)
