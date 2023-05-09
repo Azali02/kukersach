@@ -12,6 +12,7 @@ namespace kukersach
 {
     internal class Requests
     {
+        // Метод для получения всех данных из указанной таблицы и отображения их в таблице DataGridView
         public void allTable(string table, DataGridView dataGrid) //имя таблицы и место отбражения
         {
             DB db = new DB();
@@ -29,12 +30,13 @@ namespace kukersach
             db.CloseConnection();
         }
 
-        public void notAllWithFilter(string condition, string req, dynamic value, string table, DataGridView dataGrid) //отобрающие столбцы, столбец, его условие, имя таблицы и место отбражения
+        // Метод для получения данных с фильтром по одному столбцу и отображения их в таблице DataGridView
+        public void oneСondition(string req, dynamic value, string table, DataGridView dataGrid) //столбец, его условие, имя таблицы и место отбражения
         {
             DB db = new DB();
             db.OpenConnection();
 
-            string sql = "SELECT " + condition + " FROM " + table + " WHERE " + req + " = @value";
+            string sql = "SELECT * FROM " + table + " WHERE " + req + " = @value";
             MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
             command.Parameters.AddWithValue("@value", value);
 
@@ -46,6 +48,7 @@ namespace kukersach
             db.CloseConnection();
         }
 
+        // Метод для получения данных с фильтром по двум столбцам и отображения их в таблице DataGridView
         public void notAllWithFilter(string condition, string req1, dynamic value1, string req2, dynamic value2, string table, DataGridView dataGrid) //отобрающие столбцы, столбец, его условие, имя таблицы и место отбражения
         {
             DB db = new DB();
@@ -64,12 +67,13 @@ namespace kukersach
             db.CloseConnection();
         }
 
-        public void oneСondition(string req, dynamic value, string table, DataGridView dataGrid) //столбец, его условие, имя таблицы и место отбражения
+        // Метод для получения данных с фильтром по одному столбцу и отображения только указанных столбцов в таблице DataGridView
+        public void notAllWithFilter(string condition, string req, dynamic value, string table, DataGridView dataGrid) //отобрающие столбцы, столбец, его условие, имя таблицы и место отбражения
         {
             DB db = new DB();
             db.OpenConnection();
 
-            string sql = "SELECT * FROM " + table + " WHERE " + req + " = @value";
+            string sql = "SELECT " + condition + " FROM " + table + " WHERE " + req + " = @value";
             MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
             command.Parameters.AddWithValue("@value", value);
 
@@ -81,6 +85,7 @@ namespace kukersach
             db.CloseConnection();
         }
 
+        // Метод для заполнения ComboBox данными из указанной таблицы и указанного столбца
         public void fill_cb(string req, string table, List<string> requests, ComboBox cb) //столбец, имя таблицы, лист для заполнения, место отображения
         {
             DB db = new DB();
@@ -104,6 +109,7 @@ namespace kukersach
             db.CloseConnection();
         }
 
+        // Метод для вставки данных в указанную таблицу
         public void insertInto(string req1, dynamic value1, string req2, dynamic value2, string req3, dynamic value3, string req4, dynamic value4, string table) //столбец, его значение, ..., имя таблицы
         {
             DB _db = new DB();
@@ -122,6 +128,8 @@ namespace kukersach
 
             _db.CloseConnection();
         }
+
+        // Метод для обновления данных в указанной таблице по двум столбцам
         public void updete(string req, string req1, dynamic value1, string req2, dynamic value2, string table)
         {
             DB db = new DB();
@@ -137,6 +145,8 @@ namespace kukersach
 
             db.CloseConnection();
         }
+
+        // Метод для обновления данных в указанной таблице по одному столбцу
         public void updete(dynamic value1, string sql)
         {
             DB db = new DB();
