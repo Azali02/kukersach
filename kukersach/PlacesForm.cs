@@ -19,6 +19,8 @@ namespace kukersach
         Point lastPoint;
         Requests requests = new Requests();
         string s = "flight";
+        string condition = "`place`, `freedom`";
+        string req = "id_flight";
         string s_people = "people";
         int id;
         List<string> documents = new List<string>();
@@ -34,43 +36,6 @@ namespace kukersach
             FormUtils.CenterFormOnScreen(this);
             id = selectedId;
             label1.Text = "Места на рейс: " + name_f;
-        }
-        private void PlacesForm_Load(object sender, EventArgs e)
-        {
-            DB db = new DB();
-            db.OpenConnection();
-
-            string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id AND `freedom` = 1 ORDER BY `flight`.`place` ASC";
-            MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
-            command.Parameters.AddWithValue("@id", id);
-
-            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-            DataTable dataTable = new DataTable();
-            adapter.Fill(dataTable);
-
-
-
-            string sReq = "document";
-            requests.fill_cb(sReq, s_people, documents, cb_doc);
-
-            ////заполняем список comboBox паспортных данных
-            //string sql2 = "SELECT DISTINCT `document` FROM `people`";
-            //MySqlCommand command2 = new MySqlCommand(sql2, db.GetConnection());
-            //MySqlDataReader reader2 = command2.ExecuteReader();
-
-            //documents = new List<string>();
-            //while (reader2.Read())
-            //{
-            //    documents.Add(reader2.GetString(0));
-            //}
-            //reader2.Close();
-            //cb_doc.Items.Clear();
-            //foreach (string document in documents)
-            //{
-            //    cb_doc.Items.Add(document);
-            //}
-            dataGridView.DataSource = dataTable;
-            db.CloseConnection();
         }
 
         private void Close_btn_Click(object sender, EventArgs e)
@@ -117,6 +82,47 @@ namespace kukersach
             Back_btn.BackColor = panel_moved.BackColor;
         }
 
+        private void PlacesForm_Load(object sender, EventArgs e)
+        {
+            string req2 = "`freedom`";
+            requests.notAllWithFilter(condition, req, id, req2, 1, s, dataGridView);
+            //DB db = new DB();
+            //db.OpenConnection();
+
+            //string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id AND `freedom` = 1 ORDER BY `flight`.`place` ASC";
+            //MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
+            //command.Parameters.AddWithValue("@id", id);
+
+            //MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            //DataTable dataTable = new DataTable();
+            //adapter.Fill(dataTable);
+
+
+
+            string sReq = "document";
+            requests.fill_cb(sReq, s_people, documents, cb_doc);
+
+            ////заполняем список comboBox паспортных данных
+            //string sql2 = "SELECT DISTINCT `document` FROM `people`";
+            //MySqlCommand command2 = new MySqlCommand(sql2, db.GetConnection());
+            //MySqlDataReader reader2 = command2.ExecuteReader();
+
+            //documents = new List<string>();
+            //while (reader2.Read())
+            //{
+            //    documents.Add(reader2.GetString(0));
+            //}
+            //reader2.Close();
+            //cb_doc.Items.Clear();
+            //foreach (string document in documents)
+            //{
+            //    cb_doc.Items.Add(document);
+            //}
+            //dataGridView.DataSource = dataTable;
+            //db.CloseConnection();
+            dataGridView.ClearSelection();
+        }
+
         private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (dataGridView.Columns[e.ColumnIndex].Name == "freedom")
@@ -133,40 +139,25 @@ namespace kukersach
             }
         }
 
-        private void dataGridView_Scroll(object sender, ScrollEventArgs e)
-        {
-            //if (e.ScrollOrientation == ScrollOrientation.VerticalScroll && e.Type == ScrollEventType.SmallIncrement && dataGridView.Rows.Count > 0)
-            //{
-            //    int lastIndex = dataGridView.Rows.Count - 1;
-            //    if (dataGridView.FirstDisplayedScrollingRowIndex != -1 && dataGridView.FirstDisplayedScrollingRowIndex >= lastIndex)
-            //    {
-            //        // Отключить прокрутку вниз
-            //        dataGridView.ScrollBars = ScrollBars.Vertical;
-            //    }
-            //    else
-            //    {
-            //        // Включить прокрутку вниз
-            //        dataGridView.ScrollBars = ScrollBars.Both;
-            //    }
-            //}
-        }
-
         private void btn_Freedom_Click(object sender, EventArgs e)
         {
             k = true;
-            DB db = new DB();
-            db.OpenConnection();
+            string req2 = "`freedom`";
+            requests.notAllWithFilter(condition, req, id, req2, 1, s, dataGridView);
 
-            string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id AND `freedom` = 1 ORDER BY `flight`.`place` ASC";
-            MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
-            command.Parameters.AddWithValue("@id", id);
+            //DB db = new DB();
+            //db.OpenConnection();
 
-            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-            DataTable dataTable = new DataTable();
-            adapter.Fill(dataTable);
+            //string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id AND `freedom` = 1 ORDER BY `flight`.`place` ASC";
+            //MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
+            //command.Parameters.AddWithValue("@id", id);
 
-            dataGridView.DataSource = dataTable;
-            db.CloseConnection();
+            //MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            //DataTable dataTable = new DataTable();
+            //adapter.Fill(dataTable);
+
+            //dataGridView.DataSource = dataTable;
+            //db.CloseConnection();
             dataGridView.ClearSelection();
         }
 
@@ -177,20 +168,23 @@ namespace kukersach
             {
                 k = true;
                 int place = Convert.ToInt32(dataGridView.CurrentRow.Cells["place"].Value);
-                DB db = new DB();
-                db.OpenConnection();
+                string req2 = "`place`";
+                requests.notAllWithFilter(condition, req, id, req2, place, s, dataGridView);
 
-                string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id AND `place` = @place ORDER BY `flight`.`place` ASC";
-                MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
-                command.Parameters.AddWithValue("@id", id);
-                command.Parameters.AddWithValue("@place", place);
+                //DB db = new DB();
+                //db.OpenConnection();
 
-                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                DataTable dataTable = new DataTable();
-                adapter.Fill(dataTable);
+                //string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id AND `place` = @place ORDER BY `flight`.`place` ASC";
+                //MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
+                //command.Parameters.AddWithValue("@id", id);
+                //command.Parameters.AddWithValue("@place", place);
 
-                dataGridView.DataSource = dataTable;
-                db.CloseConnection();
+                //MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                //DataTable dataTable = new DataTable();
+                //adapter.Fill(dataTable);
+
+                //dataGridView.DataSource = dataTable;
+                //db.CloseConnection();
                 dataGridView.ClearSelection();
             }
         }
@@ -198,25 +192,28 @@ namespace kukersach
         private void btn_ShowAll_Click(object sender, EventArgs e)
         {
             k = false;
-            DB db = new DB();
-            db.OpenConnection();
 
-            string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id ORDER BY `flight`.`place` ASC";
-            MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
-            command.Parameters.AddWithValue("@id", id);
+            requests.notAllWithFilter(condition, req, id, s, dataGridView);
 
-            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-            DataTable dataTable = new DataTable();
-            adapter.Fill(dataTable);
+            //DB db = new DB();
+            //db.OpenConnection();
 
-            dataGridView.DataSource = dataTable;
-            db.CloseConnection();
+            //string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id";
+            //MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
+            //command.Parameters.AddWithValue("@id", id);
+
+            //MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            //DataTable dataTable = new DataTable();
+            //adapter.Fill(dataTable);
+
+            //dataGridView.DataSource = dataTable;
+            //db.CloseConnection();
             dataGridView.ClearSelection();
         }
 
         private void cb_doc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            name = null;
+            name = "";
             birth = DateTime.Now;
             doc = cb_doc.Text.ToString();
 
@@ -231,11 +228,9 @@ namespace kukersach
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);
 
-            if (dataTable.Rows.Count > 0)
-            {
-                name = dataTable.Rows[0]["full_name"].ToString();
-                birth = Convert.ToDateTime(dataTable.Rows[0]["birth"]);
-            }
+            name = Convert.ToString(dataTable.Rows[0]["full_name"]);
+            birth = Convert.ToDateTime(dataTable.Rows[0]["birth"]);
+
             db.CloseConnection();
 
             if (documents.Contains(doc))
@@ -278,21 +273,27 @@ namespace kukersach
                     doc = cb_doc.Text;
                     string birthDateString = birth.ToString("yyyy-MM-dd");
 
-                    DB _db = new DB();
-                    _db.OpenConnection();
+                    string req1 = "full_name";
+                    string req2 = "document";
+                    string req3 = "birth";
+                    string req4 = "exemption";
+                    requests.insertInto(req1, name, req2, doc, req3, birthDateString, req4, b, s_people);
 
-                    string sql = "INSERT INTO `people` (`full_name`, `document`, `birth`, `exemption`) VALUES (@name, @doc, @birth, @b)";
-                    MySqlCommand command = new MySqlCommand(sql, _db.GetConnection());
-                    command.Parameters.AddWithValue("@name", name);
-                    command.Parameters.AddWithValue("@doc", doc);
-                    command.Parameters.AddWithValue("@birth", birthDateString);
-                    command.Parameters.AddWithValue("@b", b);
+                    //DB _db = new DB();
+                    //_db.OpenConnection();
 
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
+                    //string sql = "INSERT INTO `people` (`full_name`, `document`, `birth`, `exemption`) VALUES (@name, @doc, @birth, @b)";
+                    //MySqlCommand command = new MySqlCommand(sql, _db.GetConnection());
+                    //command.Parameters.AddWithValue("@name", name);
+                    //command.Parameters.AddWithValue("@doc", doc);
+                    //command.Parameters.AddWithValue("@birth", birthDateString);
+                    //command.Parameters.AddWithValue("@b", b);
 
-                    _db.CloseConnection();
+                    //MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                    //DataTable dataTable = new DataTable();
+                    //adapter.Fill(dataTable);
+
+                    //_db.CloseConnection();
                 }
 
                 int place = Convert.ToInt32(dataGridView.Rows[0].Cells["place"].Value);

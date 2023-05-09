@@ -229,7 +229,6 @@
             dataGridView.TabIndex = 2;
             dataGridView.CellClick += dataGridView_CellClick;
             dataGridView.CellFormatting += dataGridView_CellFormatting;
-            dataGridView.Scroll += dataGridView_Scroll;
             // 
             // panel2
             // 
