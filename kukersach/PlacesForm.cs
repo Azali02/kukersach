@@ -86,40 +86,10 @@ namespace kukersach
         {
             string req2 = "`freedom`";
             requests.notAllWithFilter(condition, req, id, req2, 1, s, dataGridView);
-            //DB db = new DB();
-            //db.OpenConnection();
-
-            //string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id AND `freedom` = 1 ORDER BY `flight`.`place` ASC";
-            //MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
-            //command.Parameters.AddWithValue("@id", id);
-
-            //MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-            //DataTable dataTable = new DataTable();
-            //adapter.Fill(dataTable);
-
-
 
             string sReq = "document";
             requests.fill_cb(sReq, s_people, documents, cb_doc);
 
-            ////заполняем список comboBox паспортных данных
-            //string sql2 = "SELECT DISTINCT `document` FROM `people`";
-            //MySqlCommand command2 = new MySqlCommand(sql2, db.GetConnection());
-            //MySqlDataReader reader2 = command2.ExecuteReader();
-
-            //documents = new List<string>();
-            //while (reader2.Read())
-            //{
-            //    documents.Add(reader2.GetString(0));
-            //}
-            //reader2.Close();
-            //cb_doc.Items.Clear();
-            //foreach (string document in documents)
-            //{
-            //    cb_doc.Items.Add(document);
-            //}
-            //dataGridView.DataSource = dataTable;
-            //db.CloseConnection();
             dataGridView.ClearSelection();
         }
 
@@ -145,19 +115,6 @@ namespace kukersach
             string req2 = "`freedom`";
             requests.notAllWithFilter(condition, req, id, req2, 1, s, dataGridView);
 
-            //DB db = new DB();
-            //db.OpenConnection();
-
-            //string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id AND `freedom` = 1 ORDER BY `flight`.`place` ASC";
-            //MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
-            //command.Parameters.AddWithValue("@id", id);
-
-            //MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-            //DataTable dataTable = new DataTable();
-            //adapter.Fill(dataTable);
-
-            //dataGridView.DataSource = dataTable;
-            //db.CloseConnection();
             dataGridView.ClearSelection();
         }
 
@@ -171,20 +128,6 @@ namespace kukersach
                 string req2 = "`place`";
                 requests.notAllWithFilter(condition, req, id, req2, place, s, dataGridView);
 
-                //DB db = new DB();
-                //db.OpenConnection();
-
-                //string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id AND `place` = @place ORDER BY `flight`.`place` ASC";
-                //MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
-                //command.Parameters.AddWithValue("@id", id);
-                //command.Parameters.AddWithValue("@place", place);
-
-                //MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                //DataTable dataTable = new DataTable();
-                //adapter.Fill(dataTable);
-
-                //dataGridView.DataSource = dataTable;
-                //db.CloseConnection();
                 dataGridView.ClearSelection();
             }
         }
@@ -192,22 +135,8 @@ namespace kukersach
         private void btn_ShowAll_Click(object sender, EventArgs e)
         {
             k = false;
-
             requests.notAllWithFilter(condition, req, id, s, dataGridView);
 
-            //DB db = new DB();
-            //db.OpenConnection();
-
-            //string sql = "SELECT `place`, `freedom` FROM `flight` WHERE id_flight = @id";
-            //MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
-            //command.Parameters.AddWithValue("@id", id);
-
-            //MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-            //DataTable dataTable = new DataTable();
-            //adapter.Fill(dataTable);
-
-            //dataGridView.DataSource = dataTable;
-            //db.CloseConnection();
             dataGridView.ClearSelection();
         }
 
@@ -278,44 +207,36 @@ namespace kukersach
                     string req3 = "birth";
                     string req4 = "exemption";
                     requests.insertInto(req1, name, req2, doc, req3, birthDateString, req4, b, s_people);
-
-                    //DB _db = new DB();
-                    //_db.OpenConnection();
-
-                    //string sql = "INSERT INTO `people` (`full_name`, `document`, `birth`, `exemption`) VALUES (@name, @doc, @birth, @b)";
-                    //MySqlCommand command = new MySqlCommand(sql, _db.GetConnection());
-                    //command.Parameters.AddWithValue("@name", name);
-                    //command.Parameters.AddWithValue("@doc", doc);
-                    //command.Parameters.AddWithValue("@birth", birthDateString);
-                    //command.Parameters.AddWithValue("@b", b);
-
-                    //MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                    //DataTable dataTable = new DataTable();
-                    //adapter.Fill(dataTable);
-
-                    //_db.CloseConnection();
                 }
 
                 int place = Convert.ToInt32(dataGridView.Rows[0].Cells["place"].Value);
-                DB db = new DB();
-                db.OpenConnection();
+                string req_f = "freedom";
+                string req_2 = "place";
 
-                string sql1 = "UPDATE all_flights SET free_places = free_places - 1 WHERE id = @id";
-                MySqlCommand command1 = new MySqlCommand(sql1, db.GetConnection());
-                command1.Parameters.AddWithValue("@id", id);
-                MySqlDataAdapter adapter1 = new MySqlDataAdapter(command1);
-                DataTable dataTable1 = new DataTable();
-                adapter1.Fill(dataTable1);
+                requests.updete(req_f, req, id, req_2, place, s);
 
-                string sql2 = "UPDATE flight SET freedom = 0 WHERE id_flight = @id AND place = @place";
-                MySqlCommand command2 = new MySqlCommand(sql2, db.GetConnection());
-                command2.Parameters.AddWithValue("@id", id);
-                command2.Parameters.AddWithValue("@place", place);
-                MySqlDataAdapter adapter2 = new MySqlDataAdapter(command2);
-                DataTable dataTable2 = new DataTable();
-                adapter2.Fill(dataTable2);
+                string sql = "UPDATE all_flights SET free_places = free_places - 1 WHERE id = @value";
+                requests.updete(id, sql);
 
-                db.CloseConnection();
+                //DB db = new DB();
+                //db.OpenConnection();
+
+                //string sql1 = "UPDATE all_flights SET free_places = free_places - 1 WHERE id = @id";
+                //MySqlCommand command1 = new MySqlCommand(sql1, db.GetConnection());
+                //command1.Parameters.AddWithValue("@id", id);
+                //MySqlDataAdapter adapter1 = new MySqlDataAdapter(command1);
+                //DataTable dataTable1 = new DataTable();
+                //adapter1.Fill(dataTable1);
+
+                //string sql2 = "UPDATE flight SET freedom = 0 WHERE id_flight = @id AND place = @place";
+                //MySqlCommand command2 = new MySqlCommand(sql2, db.GetConnection());
+                //command2.Parameters.AddWithValue("@id", id);
+                //command2.Parameters.AddWithValue("@place", place);
+                //MySqlDataAdapter adapter2 = new MySqlDataAdapter(command2);
+                //DataTable dataTable2 = new DataTable();
+                //adapter2.Fill(dataTable2);
+
+                //db.CloseConnection();
 
                 Hide();
                 MainForm mainForm = new MainForm();

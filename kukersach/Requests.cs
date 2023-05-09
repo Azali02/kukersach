@@ -103,22 +103,6 @@ namespace kukersach
 
             db.CloseConnection();
         }
-        //public void notAllTable_fillWithCB(string condition, string req, dynamic value, string table, ) //отобрающие столбцы, столбец, его условие, имя таблицы и место отбражения
-        //{
-        //    DB db = new DB();
-        //    db.OpenConnection();
-
-        //    string sql = "SELECT " + condition + " FROM " + table + " WHERE " + req + " = @value";
-        //    MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
-        //    command.Parameters.AddWithValue("@value", value);
-
-        //    MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-        //    DataTable dataTable = new DataTable();
-        //    adapter.Fill(dataTable);
-        //    dataGrid.DataSource = dataTable;
-
-        //    db.CloseConnection();
-        //}
 
         public void insertInto(string req1, dynamic value1, string req2, dynamic value2, string req3, dynamic value3, string req4, dynamic value4, string table) //столбец, его значение, ..., имя таблицы
         {
@@ -138,5 +122,34 @@ namespace kukersach
 
             _db.CloseConnection();
         }
+        public void updete(string req, string req1, dynamic value1, string req2, dynamic value2, string table)
+        {
+            DB db = new DB();
+            db.OpenConnection();
+
+            string sql = "UPDATE " + table + " SET " + req + " = 0 WHERE " + req1 + " = @value1 AND " + req2 + " = @value2";
+            MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
+            command.Parameters.AddWithValue("@value1", value1);
+            command.Parameters.AddWithValue("@value2", value2);
+            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+
+            db.CloseConnection();
+        }
+        public void updete(dynamic value1, string sql)
+        {
+            DB db = new DB();
+            db.OpenConnection();
+
+            MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
+            command.Parameters.AddWithValue("@value", value1);
+            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            DataTable dataTable = new DataTable();
+            adapter.Fill(dataTable);
+
+            db.CloseConnection();
+        }
+
     }
 }
