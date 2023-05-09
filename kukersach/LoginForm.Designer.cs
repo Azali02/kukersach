@@ -83,7 +83,6 @@
             text_pass.Name = "text_pass";
             text_pass.Size = new Size(153, 30);
             text_pass.TabIndex = 4;
-            text_pass.Text = "123";
             text_pass.UseSystemPasswordChar = true;
             // 
             // text_login
@@ -93,7 +92,6 @@
             text_login.Name = "text_login";
             text_login.Size = new Size(153, 30);
             text_login.TabIndex = 3;
-            text_login.Text = "admin";
             // 
             // picture_pass
             // 

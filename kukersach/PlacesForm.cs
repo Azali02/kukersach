@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,11 +17,14 @@ namespace kukersach
     public partial class PlacesForm : Form
     {
         Point lastPoint;
+        Requests requests = new Requests();
+        string s = "flight";
+        string s_people = "people";
         int id;
-        List<string> documents;
-        string name;
+        List<string> documents = new List<string>();
+        string name = "";
         DateTime birth;
-        string doc;
+        string doc = "";
         int b = 0;
         bool k = false;
 
@@ -30,7 +34,6 @@ namespace kukersach
             FormUtils.CenterFormOnScreen(this);
             id = selectedId;
             label1.Text = "Места на рейс: " + name_f;
-            dataGridView.ClearSelection();
         }
         private void PlacesForm_Load(object sender, EventArgs e)
         {
@@ -46,22 +49,26 @@ namespace kukersach
             adapter.Fill(dataTable);
 
 
-            //заполняем список comboBox паспортных данных
-            string sql2 = "SELECT DISTINCT `document` FROM `people`";
-            MySqlCommand command2 = new MySqlCommand(sql2, db.GetConnection());
-            MySqlDataReader reader2 = command2.ExecuteReader();
 
-            documents = new List<string>();
-            while (reader2.Read())
-            {
-                documents.Add(reader2.GetString(0));
-            }
-            reader2.Close();
-            cb_doc.Items.Clear();
-            foreach (string document in documents)
-            {
-                cb_doc.Items.Add(document);
-            }
+            string sReq = "document";
+            requests.fill_cb(sReq, s_people, documents, cb_doc);
+
+            ////заполняем список comboBox паспортных данных
+            //string sql2 = "SELECT DISTINCT `document` FROM `people`";
+            //MySqlCommand command2 = new MySqlCommand(sql2, db.GetConnection());
+            //MySqlDataReader reader2 = command2.ExecuteReader();
+
+            //documents = new List<string>();
+            //while (reader2.Read())
+            //{
+            //    documents.Add(reader2.GetString(0));
+            //}
+            //reader2.Close();
+            //cb_doc.Items.Clear();
+            //foreach (string document in documents)
+            //{
+            //    cb_doc.Items.Add(document);
+            //}
             dataGridView.DataSource = dataTable;
             db.CloseConnection();
         }
