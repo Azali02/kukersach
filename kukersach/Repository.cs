@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace kukersach
 {
-    internal class Requests
+    internal class Repository
     {
         // Метод для получения всех данных из указанной таблицы и отображения их в таблице DataGridView
         public void allTable(string table, DataGridView dataGrid) //имя таблицы и место отбражения
@@ -112,11 +112,11 @@ namespace kukersach
         // Метод для вставки данных в указанную таблицу
         public void insertInto(string req1, dynamic value1, string req2, dynamic value2, string req3, dynamic value3, string req4, dynamic value4, string table) //столбец, его значение, ..., имя таблицы
         {
-            DB _db = new DB();
-            _db.OpenConnection();
+            DB db = new DB();
+            db.OpenConnection();
 
             string sql = "INSERT INTO " + table + " (" + req1 + ", " + req2 + ", " + req3 + ", " + req4 + ") VALUES (@value1, @value2, @value3, @value4)";
-            MySqlCommand command = new MySqlCommand(sql, _db.GetConnection());
+            MySqlCommand command = new MySqlCommand(sql, db.GetConnection());
             command.Parameters.AddWithValue("@value1", value1);
             command.Parameters.AddWithValue("@value2", value2);
             command.Parameters.AddWithValue("@value3", value3);
@@ -126,7 +126,7 @@ namespace kukersach
             DataTable dataTable = new DataTable();
             adapter.Fill(dataTable);
 
-            _db.CloseConnection();
+            db.CloseConnection();
         }
 
         // Метод для обновления данных в указанной таблице по двум столбцам

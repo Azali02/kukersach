@@ -17,7 +17,7 @@ namespace kukersach
     public partial class MainForm : Form
     {
         Point lastPoint; // точка для хранения последней позиции мыши перед перетаскиванием формы
-        Requests requests = new Requests(); // экземпляр класса Requests для работы с запросами к базе данных
+        Repository requests = new Repository(); // экземпляр класса Requests для работы с запросами к базе данных
         string s = "all_flights"; // имя таблицы в базе данных
 
         public MainForm()

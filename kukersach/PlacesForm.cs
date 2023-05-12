@@ -17,7 +17,7 @@ namespace kukersach
     public partial class PlacesForm : Form
     {
         Point lastPoint; // определяем переменную для хранения последней позиции курсора мыши
-        Requests requests = new Requests(); // создаем экземпляр класса Requests для выполнения запросов к базе данных
+        Repository requests = new Repository(); // создаем экземпляр класса Requests для выполнения запросов к базе данных
         string s = "flight"; // задаем имя таблицы flights
         string condition = "`place`, `freedom`"; // задаем условие для фильтрации данных при запросе (используется в методе notAllWithFilter класса Requests)
         string req = "id_flight"; // задаем имя столбца таблицы, который будет использоваться для фильтрации данных при запросе (используется в методе notAllWithFilter класса Requests)
@@ -175,14 +175,15 @@ namespace kukersach
 
         private void cb_doc_TextChanged(object sender, EventArgs e)
         {
+            doc = cb_doc.Text.ToString();
             tb_name.ReadOnly = false;
             dateTimePicker.Enabled = true;
-            tb_name.Text = "";
-            dateTimePicker.Value = DateTime.Now;
         }
 
         private void btn_Buy_Click(object sender, EventArgs e)
         {
+            name = "";
+            birth = DateTime.Now;
             if (!k)
             {
                 MessageBox.Show("Выберете место"); // выводим сообщение об ошибке, если не выбрано место
@@ -196,9 +197,13 @@ namespace kukersach
                 if (!documents.Contains(doc))
                 {
                     if (chB_exemption.Checked)
+                    {
                         b = 1;
+                    }
                     else
+                    {
                         b = 0;
+                    }
                     name = tb_name.Text;
                     birth = dateTimePicker.Value;
                     doc = cb_doc.Text;
